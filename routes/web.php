@@ -25,6 +25,6 @@ Route::get('/html', function() {
     return '<h1 style="color:red">It works!</h1>';
 });
 
-Route::get('/picture', function() {
-    return '<img src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80">';
+Route::get('/calculation', function() {
+    return 1 + 2;
 });
