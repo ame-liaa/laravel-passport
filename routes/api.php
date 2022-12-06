@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Doctor;
+use App\Http\Controllers\DoctorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,92 +20,14 @@ use App\Models\Doctor;
 //     return $request->user();
 // });
 
-Route::get('/doctors', function (Request $request) {
-    $doctors = Doctor::get();
+Route::get('/doctors', [DoctorController::class, 'ListDoctor']);
 
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success get doctor',
-        'data' => $doctors
-    ]);
-});
+Route::post('/doctors', [DoctorController::class, 'PostDoctor']);
 
-Route::post('/doctors', function (Request $request) {
-    $newDoctor = Doctor::create([
-        'name' => $request->name, 
-        'specialities' => $request->specialities
-    ]);
+Route::get('/doctors/{uniqueId}', [DoctorController::class, 'DetailDoctor']);
 
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success get doctor',
-        'data' => $newDoctor
-    ]);
-});
+Route::put('doctors/{uniqueId}', [DoctorController::class, 'UpdateDoctor']);
 
-Route::get('/doctors/{uniqueId}', function (Request $request, $uniqueId) {
-    $existedDoctor = Doctor::where('id', $uniqueId)->first();
-    if ($existedDoctor == null) {
+Route::delete('doctors/{uniqueId}', [DoctorController::class, 'DeleteDoctor']);
 
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'doctor not found'
-        ], 404);
-    }
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success get doctor',
-        'data' => $existedDoctor
-    ]);
-});
-
-Route::put('doctors/{uniqueId}', function (Request $request, $uniqueId) {
-    $existedDoctor = Doctor::where('id', $uniqueId)->first();
-    if ($existedDoctor == null) {
-
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'doctor not found'
-        ], 404);
-    }
-
-    $existedDoctor->name = $request->name;
-    $existedDoctor->specialities = $request->specialities;
-
-    $existedDoctor->save();
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success get doctor',
-        'data' => $existedDoctor
-    ]);
-});
-
-Route::delete('doctors/{uniqueId}', function (Request $request, $uniqueId) {
-    $existedDoctor = Doctor::where('id', $uniqueId)->first();
-    if ($existedDoctor == null) {
-
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'doctor not found'
-        ], 404);
-    }
-
-    $existedDoctor->delete();
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success delete doctor'
-    ]);
-});
-
-Route::get('/doctors-paginate', function (Request $request) {
-    $doctors = Doctor::paginate(3);
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'success get doctor',
-        'data' => $doctors
-    ]);
-});
+Route::get('/doctors-paginate', [DoctorController::class, 'ListDoctorPaginate']);
