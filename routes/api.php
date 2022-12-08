@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Doctor;
 use App\Http\Controllers\DoctorController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,10 @@ use App\Http\Controllers\DoctorController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::get('oauth-client', function () {
+    return DB::table('oauth_clients')->get();
+});
+
 Route::get('login', function() {
     return response()->json([
         'status' => 'failed',
