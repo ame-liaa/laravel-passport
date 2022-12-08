@@ -19,10 +19,17 @@ use App\Http\Controllers\DoctorController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::get('login', function() {
+    return response()->json([
+        'status' => 'failed',
+        'message' => 'unauthenticated',
+        'data' => null
+    ], 401);
+})->name('login');
 
 Route::get('/doctors', [DoctorController::class, 'ListDoctor']);
 
-Route::post('/doctors', [DoctorController::class, 'PostDoctor']);
+Route::post('/doctors', [DoctorController::class, 'PostDoctor'])->middleware('auth:api');
 
 Route::get('/doctors/{uniqueId}', [DoctorController::class, 'DetailDoctor']);
 
