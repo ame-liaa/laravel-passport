@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Doctor;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,16 @@ use App\Http\Controllers\DoctorController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Authentication Routes
+Route::get('/login', [LoginController::class, 'DefaultUnauthenticated'])->name('login');
+
+Route::post('/login', [LoginController::class, 'Login']);
+
+Route::delete('logout', [LoginController::class, 'Logout'])->middleware('auth:sanctum');
+
+// Resource Routes
 
 Route::get('/doctors', [DoctorController::class, 'ListDoctor']);
-
-Route::post('/doctors', [DoctorController::class, 'PostDoctor']);
 
 Route::get('/doctors/{uniqueId}', [DoctorController::class, 'DetailDoctor']);
 
@@ -31,3 +35,7 @@ Route::put('doctors/{uniqueId}', [DoctorController::class, 'UpdateDoctor']);
 Route::delete('doctors/{uniqueId}', [DoctorController::class, 'DeleteDoctor']);
 
 Route::get('/doctors-paginate', [DoctorController::class, 'ListDoctorPaginate']);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/doctors', [DoctorController::class, 'PostDoctor']);
+});
