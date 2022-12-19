@@ -22,7 +22,7 @@ use App\Http\Controllers\DoctorController;
 
 Route::get('/doctors', [DoctorController::class, 'ListDoctor']);
 
-Route::post('/doctors', [DoctorController::class, 'PostDoctor']);
+Route::post('/doctors', [DoctorController::class, 'PostDoctor'])->middleware('auth:api');
 
 Route::get('/doctors/{uniqueId}', [DoctorController::class, 'DetailDoctor']);
 
